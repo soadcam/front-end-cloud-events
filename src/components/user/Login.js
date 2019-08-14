@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, FormLabel, FormControl, Button } from 'react-bootstrap';
 import { handleResponse } from '../../helpers/handle-response'
+import { ToastsContainer, ToastsStore } from 'react-toasts';
 
 export default class Login extends Component {
     constructor(props) {
@@ -48,12 +49,15 @@ export default class Login extends Component {
                     this.setState({ isAuthenticated: true });
                     this.props.history.push('/');
                 }
+                else
+                ToastsStore.error("Credenciales incorrectas.");
             });
     }
 
     render() {
         return (
             <div className="Login">
+                <ToastsContainer store={ToastsStore} />
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="email">
                         <FormLabel>Correo</FormLabel>
@@ -77,7 +81,7 @@ export default class Login extends Component {
                         disabled={!this.validateForm()}
                         type="submit"
                     >
-                        Login
+                        Iniciar Sesión
                 </Button>
                 </form>
             </div>

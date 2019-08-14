@@ -14,11 +14,11 @@ export default class LoginNav extends Component {
     render() {
         return (
             <div className="App container">
-                <Navbar bg="dark" variant="dark">
+                <Navbar bg="dark" variant="dark" expand="lg">
                     <Navbar.Brand href="/#/login">Eventos</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/#/user/register">Registrar</Nav.Link>
-                        <Nav.Link href="/#/login">Login</Nav.Link>
+                        <Nav.Link href="/#/login">Iniciar Sesión</Nav.Link>
                     </Nav>
                     <Form inline>
                     </Form>

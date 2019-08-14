@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
-import { ToastsContainer, ToastsStore, ToastStore } from 'react-toasts';
+import { ToastsContainer, ToastsStore } from 'react-toasts';
 import { handleResponse } from '../../helpers/handle-response'
 
 export default class UserRegister extends Component {

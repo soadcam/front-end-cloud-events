@@ -14,14 +14,14 @@ export default class MainHeader extends Component {
     render() {
         return (
             <div className="App container">
-                <Navbar bg="dark" variant="dark">
-                    <Navbar.Brand href="/">Eventos</Navbar.Brand>
+                <Navbar bg="dark" variant="dark" expand="lg">
+                    <Navbar.Brand href="/#/">Eventos</Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/">Todos</Nav.Link>
-                        <Nav.Link href="/event/add">Agregar</Nav.Link>
-                        <Nav.Link href="/logout">Cerrar sesión</Nav.Link>
+                        <Nav.Link href="/#/">Todos</Nav.Link>
+                        <Nav.Link href="/#/event/add">Agregar</Nav.Link>
                     </Nav>
                     <Form inline>
+                        <Nav.Link href="/#/logout" className=" mr-sm-2">Cerrar sesión</Nav.Link>
                     </Form>
                 </Navbar>
             </div>

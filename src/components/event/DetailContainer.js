@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import MainHeader from "../main/Header";
-import EventList from "./List";
+import EventDetails from './Detail';
 
-export default class EventListContainer extends Component {
+export default class EventDetailsContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -15,7 +15,7 @@ export default class EventListContainer extends Component {
         return (
             <div>
                 <MainHeader />
-                <EventList history={this.props.history} />
+                <EventDetails history={this.props.history} match={this.props.match} />
             </div>
         );
     }
