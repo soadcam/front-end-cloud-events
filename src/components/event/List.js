@@ -30,10 +30,9 @@ export default class EventList extends Component {
             .then(response => handleResponse(response, this.props.history))
             .then(events => {
                 if (events){
-                    if (events.length > 0)
-                        this.setState({ events: events });
-                    else
+                    if (events.length === 0)
                         ToastsStore.warning("No hay eventos asociados al usuario.");
+                    this.setState({ events: events });
                 }
             });
     }
@@ -53,13 +52,21 @@ export default class EventList extends Component {
             .then(operation => {
                 if (operation) {
                     this.getEvents();
-                    ToastsStore.success("Se ha eliminado el evento.");   
+                    ToastsStore.success("Se ha eliminado el evento.");
                 }
             });
         }
     }
 
     render() {
+        if (!this.state.events || this.state.events.length === 0) {
+            return (
+                <Card style={{ marginLeft: '10%', marginRight: '10%', marginTop: '5%' }}>
+                    <Card.Header style={{ fontWeight: 'bold' }}>Evento</Card.Header>
+                    <Card.Body>No hay eventos asociados al usuario.</Card.Body>
+                </Card>
+            );
+        }
         return (
             <div>
                 <ToastsContainer store={ToastsStore} />

@@ -202,7 +202,7 @@ export default class EventDetails extends Component {
                                 <FormLabel>Fecha de inicio</FormLabel>
                                 <FormControl
                                     type="date"
-                                    value={this.state.startDate}
+                                    value={this.state.event.startDate}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
@@ -210,7 +210,7 @@ export default class EventDetails extends Component {
                                 <FormLabel>Fecha de fin</FormLabel>
                                 <FormControl
                                     type="date"
-                                    value={this.state.finishDate}
+                                    value={this.state.event.finishDate}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
