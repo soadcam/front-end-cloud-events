@@ -40,7 +40,7 @@ export default class Login extends Component {
                 password: this.state.password
             })
         };
-        fetch(`http://localhost:8001/api/login`, requestOptions)
+        fetch(`http://172.24.42.63:8080/api/login`, requestOptions)
             .then(handleResponse)
             .then(token => {
                 if (token && token.token) {

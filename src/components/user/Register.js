@@ -38,7 +38,7 @@ export default class UserRegister extends Component {
             headers: headers,
             cache: 'default'
         };
-        fetch(`http://localhost:8001/api/users/${this.state.email}`, requestOptionsUniqueUser)
+        fetch(`http://172.24.42.63:8080/api/users/${this.state.email}`, requestOptionsUniqueUser)
             .then(handleResponse)
             .then(response => {
                 if (!response || response.length === 0) {
@@ -51,15 +51,15 @@ export default class UserRegister extends Component {
                             password: this.state.password
                         })
                     };
-                    fetch(`http://localhost:8001/api/users`, requestOptionsAddUser)
+                    fetch(`http://172.24.42.63:8080/api/users`, requestOptionsAddUser)
                         .then(handleResponse)
                         .then(userResponse => {
                             if (userResponse)
-                                this.props.history.push('/login');
+                              ToastsStore.success("Usuario registrado.");
                         });
                 }
                 else
-                    ToastsStore.error("El email ya está registrado.");
+                    ToastsStore.error("El correo ya está registrado.");
             });
     }
 
@@ -91,7 +91,7 @@ export default class UserRegister extends Component {
                             <Button
                                 block
                                 disabled={!this.validateForm()}
-                                type="submit">Login</Button>
+                                type="submit">Registrar</Button>
                         </form>
                     </Card.Body>
                 </Card>
