@@ -1,5 +1,6 @@
 {
   "name": "event_proj",
+  "homepage": "http://172.24.42.63:80",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

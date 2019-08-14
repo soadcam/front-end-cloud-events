@@ -67,7 +67,7 @@ export default class UserRegister extends Component {
         return (
             <div>
                 <ToastsContainer store={ToastsStore} />
-                <Card style={{ margin: '10%' }}>
+                <Card style={{ marginLeft: '33%', marginRight: '33%', marginTop: '5%' }}>
                     <Card.Header style={{ fontWeight: 'bold' }}>Registrar usuario</Card.Header>
                     <Card.Body>
                         <form onSubmit={this.handleSubmit}>
