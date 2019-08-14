@@ -107,7 +107,8 @@ export default class EventList extends Component {
                                             <td>{finishDate}</td>
                                             <td>{category}</td>
                                             <td>{type}</td>
-                                            <td><Link to={`/event/details/${eventId}`}>Editar</Link></td>
+                                            <td><Link to={`/event/details/${eventId}/1`}>Detalles</Link></td>
+                                            <td><Link to={`/event/details/${eventId}/0`}>Editar</Link></td>
                                             <td>
                                                 <span style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
                                                     onClick={() => { this.deleteEvent(eventId); }}>

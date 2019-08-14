@@ -20,7 +20,8 @@ export default class EventDetails extends Component {
             lists: {
                 categories: [],
                 types: [],
-            }
+            },
+            isReadonly: props.match.params.isReadonly == 1
         };
     }
 
@@ -46,7 +47,6 @@ export default class EventDetails extends Component {
                     const newState = this.state;
                     newState.event = event[0];
                     this.setState(newState);
-                    debugger
                 }
             });
     }
@@ -87,7 +87,6 @@ export default class EventDetails extends Component {
             .then(types => {
                 if (types) {
                     if (types.length > 0) {
-                        debugger
                         const newState = this.state;
                         newState.lists.types = types;
                         this.setState(newState);
@@ -138,6 +137,7 @@ export default class EventDetails extends Component {
     }
 
     render() {
+        const { isReadonly } = this.state;
         return (
             <div>
                 <ToastsContainer store={ToastsStore} />
@@ -152,6 +152,7 @@ export default class EventDetails extends Component {
                                     type="text"
                                     value={this.state.event.name}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 />
                             </FormGroup>
                             <FormGroup controlId="place">
@@ -160,6 +161,7 @@ export default class EventDetails extends Component {
                                     type="text"
                                     value={this.state.event.place}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 />
                             </FormGroup>
                             <FormGroup controlId="address">
@@ -168,6 +170,7 @@ export default class EventDetails extends Component {
                                     type="address"
                                     value={this.state.event.address}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 />
                             </FormGroup>
                             <FormGroup controlId="eventCategoryId">
@@ -175,6 +178,7 @@ export default class EventDetails extends Component {
                                 <FormControl as="select"
                                     value={this.state.event.eventCategoryId}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 >
                                     <option key="" value="" disabled>Elije una opción</option>
                                     {this.state.lists.categories.map(function (data, key) {
@@ -189,6 +193,7 @@ export default class EventDetails extends Component {
                                 <FormControl as="select"
                                     value={this.state.event.eventTypeId}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 >
                                     <option key="" value="" disabled>Elije una opción</option>
                                     {this.state.lists.types.map(function (data, key) {
@@ -204,6 +209,7 @@ export default class EventDetails extends Component {
                                     type="date"
                                     value={this.state.event.startDate}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 />
                             </FormGroup>
                             <FormGroup controlId="finishDate">
@@ -212,12 +218,15 @@ export default class EventDetails extends Component {
                                     type="date"
                                     value={this.state.event.finishDate}
                                     onChange={this.handleChange}
+                                    disabled={isReadonly}
                                 />
                             </FormGroup>
-                            <Button
-                                block
-                                disabled={!this.validateForm()}
-                                type="submit">Editar</Button>
+                            {!isReadonly && (
+                                <Button
+                                    block
+                                    disabled={!this.validateForm()}
+                                    type="submit">Editar</Button>
+                            )}
                         </form>
                     </Card.Body>
                 </Card>
