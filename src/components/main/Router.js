@@ -13,7 +13,7 @@ const RouterCustom = () => (
         <div>
           <Route exact path='/' component={EventListContainer}/>
           <Route path='/login' component={LoginContainer}/>
-          <Route path='/event/details/:idEvent' component={EventDetailsContainer}/>
+          <Route path='/event/details/:eventId' component={EventDetailsContainer}/>
           <Route path='/event/add' component={EventAddContainer}/>
           <Route path='/user/register' component={UserRegisterContainer}/>
           <Route path='/logout' component={Logout}/>

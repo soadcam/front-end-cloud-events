@@ -50,7 +50,7 @@ export default class Login extends Component {
                     this.props.history.push('/');
                 }
                 else
-                ToastsStore.error("Credenciales incorrectas.");
+                    ToastsStore.error("Credenciales incorrectas.");
             });
     }
 

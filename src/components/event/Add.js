@@ -1,84 +1,116 @@
 import React, { Component } from 'react';
 import { ToastsContainer, ToastsStore } from 'react-toasts';
 import { Button, Card, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
+import { handleResponse } from '../../helpers/handle-response'
 
 export default class EventAdd extends Component {
-    eventCategories;
-    eventTypes;
-
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
-            eventCategoryId: "",
-            place: "",
-            address: "",
-            startDate: "",
-            finishDate: "",
-            eventTypeId: "",
+            event: {
+                name: "",
+                eventCategoryId: "",
+                place: "",
+                address: "",
+                startDate: "",
+                finishDate: "",
+                eventTypeId: "",
+            },
+            lists: {
+                categories: [],
+                types: [],
+            }
         };
-        this.eventCategories = [];
-        this.eventTypes = [];
+    }
+
+    componentDidMount() {
         this.getEventCategories();
         this.getEventTypes();
     }
 
-    componentDidMount() {
-    }
-
     getEventCategories() {
-        this.eventCategories = [
-            {
-                eventCategoryId: 1,
-                description: 'Cat 1',
-            },
-            {
-                eventCategoryId: 2,
-                description: 'Cat 2',
-            },
-            {
-                eventCategoryId: 3,
-                description: 'Cat 3',
-            },
-        ];
+        var headers = new Headers();
+        headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`)
+        headers.append('Content-Type', 'application/json');
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+            cache: 'default'
+        };
+        fetch(`http://172.24.42.63:8080/api/categories`, requestOptions)
+            .then(response => handleResponse(response, this.props.history))
+            .then(categories => {
+                if (categories) {
+                    if (categories.length > 0) {
+                        const newState = this.state;
+                        newState.lists.categories = categories;
+                        this.setState(newState);
+                    }
+                }
+            });
     }
 
     getEventTypes() {
-        this.eventTypes = [
-            {
-                eventTypeId: 1,
-                description: 'Presencial',
-            },
-            {
-                eventTypeId: 2,
-                description: 'Virtual',
-            },
-        ];
+        var headers = new Headers();
+        headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
+        headers.append('Content-Type', 'application/json');
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+            cache: 'default'
+        };
+        fetch(`http://172.24.42.63:8080/api/types`, requestOptions)
+            .then(response => handleResponse(response, this.props.history))
+            .then(types => {
+                if (types) {
+                    if (types.length > 0) {
+                        const newState = this.state;
+                        newState.lists.types = types;
+                        this.setState(newState);
+                    }
+                }
+            });
     }
 
     validateForm() {
-        return this.state.name.length > 0
-            && this.state.place.length > 0
-            && this.state.address.length > 0
-            && this.state.startDate.length > 0
-            && this.state.finishDate.length > 0
-            && this.state.eventCategoryId.length > 0
-            && this.state.eventTypeId.length > 0;
+        return this.state.event.name.length > 0
+            && this.state.event.place.length > 0
+            && this.state.event.address.length > 0
+            && this.state.event.startDate.length > 0
+            && this.state.event.finishDate.length > 0
+            && this.state.event.eventCategoryId.length > 0
+            && this.state.event.eventTypeId.length > 0;
     }
 
     handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
+        const newState = this.state;
+        newState.event[event.target.id] = event.target.value;
+        this.setState(newState);
     }
 
     handleSubmit = event => {
         event.preventDefault();
-        if (this.state.startDate > this.state.finishDate) {
+        if (this.state.event.startDate > this.state.event.finishDate) {
             ToastsStore.error("La fecha inicial debe ser menor o igual a la final.");
             return;
         }
-        ToastsStore.success("El evento ha sido creado.");
+        var headers = new Headers();
+        headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
+        headers.append('Content-Type', 'application/json');
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            cache: 'default',
+            body: JSON.stringify(this.state.event)
+        };
+        fetch(`http://172.24.42.63:8080/api/events`, requestOptions)
+            .then(handleResponse)
+            .then(operation => {
+                if(operation) {
+                    ToastsStore.success("El evento ha sido creado.");
+                    this.props.history.push('/');
+                }
+            });
     }
 
     render() {
@@ -94,7 +126,7 @@ export default class EventAdd extends Component {
                                 <FormControl
                                     autoFocus
                                     type="text"
-                                    value={this.state.name}
+                                    value={this.state.event.name}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
@@ -102,7 +134,7 @@ export default class EventAdd extends Component {
                                 <FormLabel>Lugar</FormLabel>
                                 <FormControl
                                     type="text"
-                                    value={this.state.place}
+                                    value={this.state.event.place}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
@@ -110,18 +142,18 @@ export default class EventAdd extends Component {
                                 <FormLabel>Dirección</FormLabel>
                                 <FormControl
                                     type="address"
-                                    value={this.state.address}
+                                    value={this.state.event.address}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
                             <FormGroup controlId="eventCategoryId">
                                 <FormLabel>Categoría</FormLabel>
                                 <FormControl as="select"
-                                    value={this.state.eventCategoryId}
+                                    value={this.state.event.eventCategoryId}
                                     onChange={this.handleChange}
                                 >
                                     <option key="" value="" disabled>Elije una opción</option>
-                                    {this.eventCategories.map(function (data, key) {
+                                    {this.state.lists.categories.map(function (data, key) {
                                         return (
                                             <option key={key} value={data.eventCategoryId}>{data.description}</option>
                                         )
@@ -131,11 +163,11 @@ export default class EventAdd extends Component {
                             <FormGroup controlId="eventTypeId">
                                 <FormLabel>Tipo</FormLabel>
                                 <FormControl as="select"
-                                    value={this.state.eventTypeId}
+                                    value={this.state.event.eventTypeId}
                                     onChange={this.handleChange}
                                 >
                                     <option key="" value="" disabled>Elije una opción</option>
-                                    {this.eventTypes.map(function (data, key) {
+                                    {this.state.lists.types.map(function (data, key) {
                                         return (
                                             <option key={key} value={data.eventTypeId}>{data.description}</option>
                                         )
@@ -146,7 +178,7 @@ export default class EventAdd extends Component {
                                 <FormLabel>Fecha de inicio</FormLabel>
                                 <FormControl
                                     type="date"
-                                    value={this.state.startDate}
+                                    value={this.state.event.startDate}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
@@ -154,7 +186,7 @@ export default class EventAdd extends Component {
                                 <FormLabel>Fecha de fin</FormLabel>
                                 <FormControl
                                     type="date"
-                                    value={this.state.finishDate}
+                                    value={this.state.event.finishDate}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
